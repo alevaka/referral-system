@@ -2,6 +2,7 @@
 
 #### Стек:
 - FastAPI
+- Docker
 
 ##### Возможности:
 - регистрация и аутентификация пользователя (JWT, Oauth 2.0);
@@ -11,3 +12,9 @@
 - возможность получения реферального кода по email адресу реферера;
 - возможность получения информации о рефералах по id реферера;
 - UI документация (Swagger/ReDoc).
+
+#####  Запуск с помощью docker:
+```console
+docker build -t referral-system . 
+docker run -d --name referral-system -p 80:80 referral-system
+```
