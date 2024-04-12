@@ -63,4 +63,4 @@ async def register_user(
 async def logout_user(
     blacklist_token: Annotated[str, Depends(logout_for_invalidate_token)]
 ):
-    return blacklist_token
+    return status.HTTP_200_OK

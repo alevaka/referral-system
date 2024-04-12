@@ -29,18 +29,21 @@ async def register_user_ref(
     referral_code = new_user.referral_code
     new_user_data = new_user.model_dump()
     referral_code = new_user_data.pop("referral_code")
-    referral = await get_referral(code=referral_code)
-    if referral is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect referral code.",
-        )
+    referral_id = None
+    if referral_code is not None:
+        referral = await get_referral(code=referral_code)
+        if referral is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Incorrect referral code.",
+            )
+        referral_id = referral.user_id
 
     new_user = UserCreate(**new_user_data)
     result_status = await register_user(new_user)
     if result_status == status.HTTP_201_CREATED:
         user = await get_user(username=new_user.username)
-    await create_referral(user, referral.user_id)
+    await create_referral(user, referral_id)
     return user
 
 
